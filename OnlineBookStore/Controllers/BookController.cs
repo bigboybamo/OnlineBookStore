@@ -26,12 +26,12 @@ namespace OnlineBookStore.Controllers
         }
     
         [HttpDelete("DeleteBooks")]
-        public async Task<ActionResult<Book>> DeleteBooks(List<int> bookIds)
+        public async Task<ActionResult<bool>> DeleteBooks(List<int> bookIds)
         {
             var deleteedBook = _service.DeleteBooks(bookIds);
             if (!string.IsNullOrEmpty(deleteedBook.Item2))
                 return StatusCode(500, deleteedBook.Item2);
-            return Ok(deleteedBook);
+            return Ok(deleteedBook.Item1);
         }
 
         [HttpGet("CalculateRevenue")]

@@ -46,34 +46,40 @@ namespace OnlineBookStore.Services
             return Tuple.Create(totalRevenue, errormessage);
         }
 
-        public Tuple<Book?, string> DeleteBooks(List<int> bookIds)
+        public Tuple<bool, string> DeleteBooks(List<int> bookIds)
         {
-            Book book = null;
+            bool result = false;
             string errormessage = "";
             try
             {
+                List<Book> foundBooks = new();
                 foreach (var id in bookIds)
                 {
                     Book? bookToRemove = _context.Books.FirstOrDefault(book => book.BookId == id);
                     if (bookToRemove != null)
                     {
-                        _context.Books.Remove(bookToRemove);
-                        _context.SaveChanges();
-                        _logger.LogInformation($"Book with ID {id} deleted.");
-
+                        foundBooks.Add(bookToRemove);
                     }
                     else
                     {
                         _logger.LogInformation($"Book with ID {id} not found.");
+                        throw new ArgumentException($"Book with ID {id} not found.");
                     }
                 }
+                foreach (var bookToRemove in foundBooks)
+                {
+                    _context.Books.Remove(bookToRemove);
+                    _context.SaveChanges();
+                    _logger.LogInformation($"Book with ID {bookToRemove.BookId} deleted.");
+                }
+                result = true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while deleting the book {ErrorMessage}", ex.Message);
                 errormessage = ex.Message;
             }
-            return Tuple.Create(book, errormessage);
+            return Tuple.Create(result, errormessage);
         }
 
         public Tuple<IEnumerable<Author>, string> GetTopSellingAuthors()
