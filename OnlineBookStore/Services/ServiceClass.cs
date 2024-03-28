@@ -59,12 +59,12 @@ namespace OnlineBookStore.Services
                     {
                         _context.Books.Remove(bookToRemove);
                         _context.SaveChanges();
-                        _logger.LogInformation(($"Book with ID {id} deleted.");
+                        _logger.LogInformation($"Book with ID {id} deleted.");
 
                     }
                     else
                     {
-                        _logger.LogInformation(($"Book with ID {id} not found.");
+                        _logger.LogInformation($"Book with ID {id} not found.");
                     }
                 }
             }
