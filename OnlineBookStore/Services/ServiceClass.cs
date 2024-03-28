@@ -66,12 +66,11 @@ namespace OnlineBookStore.Services
                         throw new ArgumentException($"Book with ID {id} not found.");
                     }
                 }
-                foreach (var bookToRemove in foundBooks)
-                {
-                    _context.Books.Remove(bookToRemove);
-                    _context.SaveChanges();
-                    _logger.LogInformation($"Book with ID {bookToRemove.BookId} deleted.");
-                }
+
+                _context.Books.RemoveRange(foundBooks);
+                _context.SaveChanges();
+                _logger.LogInformation($"All Books have been deleted.");
+
                 result = true;
             }
             catch (Exception ex)
