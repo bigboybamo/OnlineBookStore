@@ -1,5 +1,7 @@
 # OnlineBookStore
 
+[![CodeFactor](https://www.codefactor.io/repository/github/bigboybamo/onlinebookstore/badge)](https://www.codefactor.io/repository/github/bigboybamo/onlinebookstore)
+
 You will need to have a local database named `OnlineBookStoreDB` and create two tables `Books` and `Authors`
 
 Script to Create `Authors`
